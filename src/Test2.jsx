@@ -160,7 +160,7 @@ const Test2 = () => {
                     placeholder="Type your tasks,please..."
                     onChange={(e) => setEditTask(e.target.value)}
                   />
-                  <button onClick={() => editTask()} className="save-button">
+                  <button onClick={() => editTask(index)} className="save-button">
                     Save                  </button>
                 </Fragment>
               ) : (
