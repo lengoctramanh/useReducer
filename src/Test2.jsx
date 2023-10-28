@@ -27,7 +27,6 @@ const Test2 = () => {
             completed: false,
             isEditing: false,
           },
-        
         ];
       // Từ đỏ trả về một mảng mới chứa nhiệm vụ từ state ban đầu và nhiệm vụ đc thêm vào cuối mảng với các thuộc tính
 
@@ -51,15 +50,14 @@ const Test2 = () => {
      *  + Nếu không bằng action.payload, điều kiện index !== action.payload sẽ trả về true, phần tử được giữ lại trong mảng mới
      *  + Nếu bằng action.payload,điều kiện trả về false, phần tử bị loại bỏ khỏi mảng mới.
         + Trả về là một mảng mới  chứa các nhiệm vụ có chỉ số khác với action.payload, tức là nhiệm vụ cần xóa đã được xóa khỏi danh sách 
-     */console.log(state)
+     */ console.log(state);
 
-        return state.filter((item ,index) => index !== action.payload);
-
+        return state.filter((item, index) => index !== action.payload);
 
       // Chuyển đổi chế độ
       case TOGGLE_EDIT_MODE:
         return state.map((task, index) => {
-          index === action.payload
+        return  index === action.payload
             ? { ...task, isEditing: !task.isEditing }
             : task;
         });
@@ -68,7 +66,7 @@ const Test2 = () => {
       // Sửa nội dung task
       case EDIT_TASK:
         return state.map((task, index) => {
-          index === action.payload.index
+        return  index === action.payload.index
             ? { ...task, text: action.payload.text, isEditing: false }
             : task;
         });
@@ -80,7 +78,7 @@ const Test2 = () => {
     }
   };
   const [todos, dispatch] = useReducer(todoReducer, initialState);
-  const [newTask, setNewTask] = useState("");
+  const [newTask, setNewTask] = useState('');
   const [editingTask, setEditTask] = useState("");
 
   // Khi ko có task mới thì retrun dừng. Có task mới thì dispatch type action...
@@ -92,7 +90,7 @@ const Test2 = () => {
       payload: newTask,
     });
     setNewTask("");
-    console.log(todos)
+    console.log(todos);
   };
 
   const toggleTask = (index) => {
@@ -113,10 +111,12 @@ const Test2 = () => {
     dispatch({
       type: "TOGGLE_EDIT_MODE",
       payload: index,
-    });
+      
+    })
+   
     // Set lại gtri cho biến
     //todos là một arr, index là chỉ số các phần tử trong arr đó, truy cập vào thuộc tính text để hiển thị lại task mới
-    setEditTask(todos.text);
+    setEditTask(todos[index].text);
   };
 
   const editTask = (index) => {
@@ -150,27 +150,25 @@ const Test2 = () => {
         <ul className="todo-items">
           {todos.map((todo, index) => (
             <li key={index} className="todo-items">
-             
               {todo.isEditing ? (
                 /** + Check công việc đang được chỉnh sửa*/
                 <Fragment>
                   <input
                     className="todo-input todo-ibput-editng"
-                    
+                    value={editingTask}
                     type="text"
                     placeholder="Type your tasks,please..."
                     onChange={(e) => setEditTask(e.target.value)}
                   />
                   <button onClick={() => editTask()} className="save-button">
-                    Save
-                  </button>
+                    Save                  </button>
                 </Fragment>
-              ) : ( 
+              ) : (
                 /** Check công việc không được chỉnh sửa */
                 <Fragment>
                   <span
                     className={
-                      todo.completed ? "todo-text completed" : "todo-text"
+                      todos.completed ? "todo-text completed" : "todo-text"
                     }
                     onClick={() => toggleTask(index)}
                   >
@@ -199,9 +197,9 @@ const Test2 = () => {
 };
 
 export default Test2;
-/**Nếu , 
- * nó sẽ hiển thị một ô input để người dùng có thể chỉnh 
- * sửa nội dung công việc và một nút "Save" để lưu thay đổi. 
- * Nếu , nó sẽ hiển thị nội dung 
- * công việc, các nút "Edit" và "Delete" để người dùng có thể 
+/**Nếu ,
+ * nó sẽ hiển thị một ô input để người dùng có thể chỉnh
+ * sửa nội dung công việc và một nút "Save" để lưu thay đổi.
+ * Nếu , nó sẽ hiển thị nội dung
+ * công việc, các nút "Edit" và "Delete" để người dùng có thể
  * chỉnh sửa hoặc xóa công việc tương ứng. */
