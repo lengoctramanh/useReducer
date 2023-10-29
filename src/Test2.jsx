@@ -38,9 +38,9 @@ const Test2 = () => {
          * Và tạo ra một ob mới bằng:copy thuộc tính của task hiện tại,chuyển thuộc tính completed bằng gtri nguoc
          *  + Nếu ko trùng thì trả về mảng ban đầu nghĩa là ko có sự toggle gì hết*/
         return state.map((task, index) => {
-          index === action.payload
-            ? { ...task, completed: !task.completed }
-            : task;
+          return index === action.payload
+            ? { ...task, 
+              completed: !task.completed }: task;
         });
 
       // Xóa đi task
@@ -50,46 +50,50 @@ const Test2 = () => {
      *  + Nếu không bằng action.payload, điều kiện index !== action.payload sẽ trả về true, phần tử được giữ lại trong mảng mới
      *  + Nếu bằng action.payload,điều kiện trả về false, phần tử bị loại bỏ khỏi mảng mới.
         + Trả về là một mảng mới  chứa các nhiệm vụ có chỉ số khác với action.payload, tức là nhiệm vụ cần xóa đã được xóa khỏi danh sách 
-     */ console.log(state);
+        + item đại diện cho phần tử hiện tại đang được xem xét trong quá trình lặp qua mảng, 
+     */ return state.filter((item, index) => index !== action.payload);
 
-        return state.filter((item, index) => index !== action.payload);
+     
 
       // Chuyển đổi chế độ
       case TOGGLE_EDIT_MODE:
         return state.map((task, index) => {
-        return  index === action.payload
-            ? { ...task, isEditing: !task.isEditing }
+      return index === action.payload  // method map() luôn trả về một arr mới nên phải return
+            ? { ...task, 
+              isEditing: !task.isEditing }  // Khi chuyển đổi chế độ thì luôn muốn kích hoặc trạng thái sửa hay ko sửa
             : task;
         });
-      // Khi chuyển đổi chế độ thì luôn muốn kích hoặc trạng thái sửa hay ko sửa
-
+     
+     
       // Sửa nội dung task
       case EDIT_TASK:
         return state.map((task, index) => {
-        return  index === action.payload.index
-            ? { ...task, text: action.payload.text, isEditing: false }
+       return index === action.payload.index //Phải truy cập vào thuộc tính index của ob action.payload
+            ? { ...task, 
+              text: action.payload.text, //cập nhật nội dung mới cho phần tử trong mảng state
+              isEditing: false }//cập nhật task mới thì kết thúc trạng thái chỉnh sửa của task mới đó
             : task;
         });
-      /** + Phải truy cập vào thuộc tính index của ob action.payload
-    + .text để cập nhật nội dung mới cho phần tử trong mảng state
-    + Khi cập nhật task mới thì kết thúc trạng thái chỉnh sửa của task mới đó và hiển thị nội dung đã được cập nhật.*/
+     
       default:
         return state;
     }
   };
+
+  
   const [todos, dispatch] = useReducer(todoReducer, initialState);
   const [newTask, setNewTask] = useState('');
   const [editingTask, setEditTask] = useState("");
 
   // Khi ko có task mới thì retrun dừng. Có task mới thì dispatch type action...
-  // Nhập task mới xong thì trả lại gtri rỗng
+  
   const addTask = () => {
     if (newTask.trim() === "") return;
     dispatch({
       type: "ADD_TASK",
       payload: newTask,
     });
-    setNewTask("");
+    setNewTask("");// Nhập task mới xong thì trả lại gtri rỗng
     console.log(todos);
   };
 
@@ -113,9 +117,7 @@ const Test2 = () => {
       payload: index,
       
     })
-   
-    // Set lại gtri cho biến
-    //todos là một arr, index là chỉ số các phần tử trong arr đó, truy cập vào thuộc tính text để hiển thị lại task mới
+//todos là một arr, index là chỉ số các phần tử trong arr đó, truy cập vào thuộc tính text để hiển thị lại task mới
     setEditTask(todos[index].text);
   };
 
@@ -123,12 +125,11 @@ const Test2 = () => {
     dispatch({
       type: "EDIT_TASK",
       // Truyền vào object mới vs thuộc tính
-      // index chỉ số task
-      // text nội dung mới
       payload: { index, text: editingTask },
     });
     // Edit xong thì trả về mảng rỗng
     setEditTask("");
+  
   };
 
   const handleChange = (e) => {
@@ -160,6 +161,7 @@ const Test2 = () => {
                     placeholder="Type your tasks,please..."
                     onChange={(e) => setEditTask(e.target.value)}
                   />
+                  {/** vì các hàm trên có tham só là index */}
                   <button onClick={() => editTask(index)} className="save-button">
                     Save                  </button>
                 </Fragment>
@@ -168,7 +170,7 @@ const Test2 = () => {
                 <Fragment>
                   <span
                     className={
-                      todos.completed ? "todo-text completed" : "todo-text"
+                      todo.completed ? "todo-text completed" : "todo-text"
                     }
                     onClick={() => toggleTask(index)}
                   >
@@ -197,9 +199,3 @@ const Test2 = () => {
 };
 
 export default Test2;
-/**Nếu ,
- * nó sẽ hiển thị một ô input để người dùng có thể chỉnh
- * sửa nội dung công việc và một nút "Save" để lưu thay đổi.
- * Nếu , nó sẽ hiển thị nội dung
- * công việc, các nút "Edit" và "Delete" để người dùng có thể
- * chỉnh sửa hoặc xóa công việc tương ứng. */

@@ -1,9 +1,11 @@
+/* style.css */
+
 /* Styling cho todo-list container */
 .todo-list {
     max-width: 400px;
     margin: 0 auto;
     padding: 20px;
-    background-color: #f0f0f0;
+    background-color: blue;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     font-family: Arial, sans-serif;
@@ -28,8 +30,8 @@
   /* Styling cho nút Thêm */
   .todo-button {
     padding: 10px 20px;
-    background-color: #0074d9;
-    color: white;
+    background-color: paleturquoise;
+    color: black;
     border: none;
     border-radius: 3px;
     margin-left: 10px;
@@ -39,7 +41,7 @@
   
   /* Hover effect cho nút Thêm */
   .todo-button:hover {
-    background-color: #0056b3;
+    background-color: whitesmoke;
   }
   
   /* Styling cho danh sách công việc */
@@ -68,7 +70,7 @@
   }
   
   /* Styling khi công việc đã hoàn thành */
-  .todo-text.completed {
+  .completed {
     text-decoration: line-through;
     color: #888;
   }
@@ -130,4 +132,22 @@
   
   /* Hover effect cho nút Lưu */
   .save-button:hover {
-    background-color: #218838;}
+    background-color: #218838;
+  }
+  
+  .cancel-button {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-left: 10px;
+  }
+  
+  /* Hover effect cho nút Hủy */
+  .cancel-button:hover {
+    background-color: #c82333;
+  }
+  
